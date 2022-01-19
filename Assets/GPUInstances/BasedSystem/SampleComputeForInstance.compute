@@ -1,0 +1,28 @@
+#pragma kernel CSMain
+
+#include "./DataStructs.hlsl"
+
+uniform RWStructuredBuffer<MeshPropertiesData> _Props;
+uniform float4x4 _TRS;
+
+
+[numthreads(64,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float4x4 transform = _Props[id.x].transform;
+    float4x4 rotate    = _Props[id.x].rotate;
+    float4x4 scale     = _Props[id.x].scale;
+    float4   position  = float4(transform[0][3], transform[1][3], transform[2][3], 1.0f);
+    float4   color     = _Props[id.x].color;
+
+    //set position based on the TRS of the Parent GameObject
+    position  = mul(_TRS, position);
+    transform = float4x4(
+        1, 0, 0, position.x,
+        0, 1, 0, position.y,
+        0, 0, 1, position.z,
+        0, 0, 0, 1.0
+    );
+
+    _Props[id.x].transform = transform;
+}

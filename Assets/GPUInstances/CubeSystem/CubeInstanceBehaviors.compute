@@ -1,0 +1,97 @@
+#pragma kernel CSMain //define the name of the kernel
+
+#include "./CubeData.hlsl"
+#include "../Utils/easing.hlsl" //import easing 
+#include "../Utils/noises.hlsl" //import noises
+#include "../Utils/MatrixFormAngleAxis.hlsl" //import noises
+#define PI 3.1415926538
+
+uniform RWStructuredBuffer<CubePropertiesData> _Props; //declare a read/write structuredBuffer
+//declare needed uniforms
+uniform float _Time;
+uniform float _OffsetTime;
+uniform float _MaxTime;
+uniform float _MinTime;
+uniform float _MaxSize;
+uniform float _MinSize;
+uniform float _Amplitude;
+uniform float _MaxAmplitude;
+uniform float4x4 _TRS;
+
+[numthreads(64, 1, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float4x4 otrmat         = _Props[id.x].otransform;
+    float4 color            = _Props[id.x].color; //we will use the color as a random value, not a color
+    float4 opos             = float4(otrmat[0][3], otrmat[1][3], otrmat[2][3], 1.0f);
+    float4 data             = _Props[id.x].data;
+
+    float maxTime           = lerp(_MinTime, _MaxTime, data.w);
+    float iTime             = _Time + _OffsetTime * color.x;
+    float modTime           = (iTime % maxTime);
+    float normTime          = modTime / maxTime;
+    uint loop               = floor(iTime / maxTime);
+    float pingpongtime      = 1.0 - abs(normTime * 2.0 - 1.0);
+    float easedTime         = inoutCubic(normTime);
+    float ppeasedTime       = inoutCubic(pingpongtime);
+
+    float rndPerLoop        = random3(opos.xyz + float3(loop, id.x, color.w));
+    float rndPerLoopSec     = random3(opos.xyz + loop + color.z);
+    float rndPerLoopThi     = random3(opos.xyz + loop * 2 + color.z + id.x);
+    float rrndPerLoopSec    = round(rndPerLoopSec * 2 - 1);
+
+    float4 direction;
+    if(rndPerLoop < .33){
+        direction = float4(1, 0, 0, 0);
+    }else if(rndPerLoop < .66){
+        direction = float4(0, 1, 0, 0);
+    }else{
+        direction = float4(0, 0, 1, 0);
+    }
+    float amp           = lerp(_Amplitude, _MaxAmplitude, random3(float3(loop, data.x, data.w)));
+    float semiamp       = amp * 0.5;
+
+    if(loop % 3 == 0){
+        float3 position     = opos.xyz + ppeasedTime * (semiamp * color.y + semiamp) * direction.xyz * rrndPerLoopSec;
+        position            =  mul(_TRS, float4(position, 1)).xyz;
+
+        float4x4 translate  = float4x4(
+            1, 0, 0, position.x,
+            0, 1, 0, position.y,
+            0, 0, 1, position.z,
+            0, 0, 0, 1.0
+        );
+
+        _Props[id.x].transform  = translate;
+        _Props[id.x].oscale     = _Props[id.x].scale;
+
+    }else if(loop % 3 == 1){
+        float4x4 rotation   = AngleAxis4x4(PI * easedTime* rrndPerLoopSec, direction.xyz);
+        _Props[id.x].rotate = rotation;
+
+    }else if(loop % 3 == 2){
+        float4x4 scmat      = _Props[id.x].oscale;
+        float3 scale        = float3(scmat[0][0], scmat[1][1], scmat[2][2]);
+
+        float3 targetScale  = float3(
+            rndPerLoop,
+            rndPerLoopSec,
+            rndPerLoopThi
+        ) * (_MaxSize - _MinSize) + _MinSize;
+
+        float3 nscale        = lerp(scale, targetScale, float3(easedTime, easedTime, easedTime));
+
+        float4x4 scalemat   = float4x4(
+            nscale.x, 0         , 0         , 0,
+            0       , nscale.y  , 0         , 0,
+            0       , 0         , nscale.z  , 0,
+            0       , 0         , 0         , 1
+        );
+
+        _Props[id.x].scale = scalemat;
+    }
+
+    // if assumeuniformscaling is set not at #pragma instancing_options computing the TRS matrix in compute avoid errors in scaling
+    _Props[id.x].TRS       = mul(_Props[id.x].transform, mul(_Props[id.x].rotate, _Props[id.x].scale));
+    
+}
