@@ -34,7 +34,7 @@
             "m_Id": "e5f4c2acdcc54c01b4e141f95a93a6c7"
         },
         {
-            "m_Id": "da1c25f62fb245379f4cf6a76e9beddb"
+            "m_Id": "9ab4e45425924bee84a7b1945d0e37d1"
         }
     ],
     "m_Edges": [
@@ -315,6 +315,26 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "9ab4e45425924bee84a7b1945d0e37d1",
+    "m_Title": "New Note",
+    "m_Content": "Write something here",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -387.0,
+        "y": -331.0,
+        "width": 351.08697509765627,
+        "height": 306.60870361328127
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
     "m_ObjectId": "b33b7334b7e94fe4ac632665d6520064",
     "m_Id": 0,
@@ -400,26 +420,6 @@
         "z": 0.0
     },
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
-    "m_ObjectId": "da1c25f62fb245379f4cf6a76e9beddb",
-    "m_Title": "Setup is Empty (?)",
-    "m_Content": "scince HDRP 3.0 unity_ObjectToWolrd and unity_WorldToObject are forbidden to use (https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@7.2/changelog/CHANGELOG.html) so instead of asigning them per instance in the setup function with simply transform the object vertex, normal and tangent position by the matrices per instance. \n\n/!\\ This is a workaround and might not be the best in term of performances",
-    "m_TextSize": 0,
-    "m_Theme": 0,
-    "m_Position": {
-        "serializedVersion": "2",
-        "x": -371.0,
-        "y": -257.0,
-        "width": 264.0,
-        "height": 228.47825622558595
-    },
-    "m_Group": {
-        "m_Id": ""
-    }
 }
 
 {

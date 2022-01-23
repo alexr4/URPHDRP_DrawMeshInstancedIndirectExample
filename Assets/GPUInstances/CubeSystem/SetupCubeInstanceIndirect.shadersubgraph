@@ -34,7 +34,7 @@
             "m_Id": "e5f4c2acdcc54c01b4e141f95a93a6c7"
         },
         {
-            "m_Id": "da1c25f62fb245379f4cf6a76e9beddb"
+            "m_Id": "c9524aea9f364c80bf9d4caaadd1c19c"
         }
     ],
     "m_Edges": [
@@ -146,10 +146,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1121.0,
-            "y": -5.00001335144043,
-            "width": 186.00006103515626,
-            "height": 34.00004577636719
+            "x": -1128.0,
+            "y": 38.0,
+            "width": 186.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -405,17 +405,17 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
-    "m_ObjectId": "da1c25f62fb245379f4cf6a76e9beddb",
-    "m_Title": "Setup is Empty (?)",
-    "m_Content": "scince HDRP 3.0 unity_ObjectToWolrd and unity_WorldToObject are forbidden to use (https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@7.2/changelog/CHANGELOG.html) so instead of asigning them per instance in the setup function with simply transform the object vertex, normal and tangent position by the matrices per instance. \n\n/!\\ This is a workaround and might not be the best in term of performances",
+    "m_ObjectId": "c9524aea9f364c80bf9d4caaadd1c19c",
+    "m_Title": "New Note",
+    "m_Content": "Write something here",
     "m_TextSize": 0,
     "m_Theme": 0,
     "m_Position": {
         "serializedVersion": "2",
-        "x": -371.0,
-        "y": -282.0,
-        "width": 264.0,
-        "height": 252.6370391845703
+        "x": -418.0,
+        "y": -288.0,
+        "width": 349.13043212890627,
+        "height": 271.478271484375
     },
     "m_Group": {
         "m_Id": ""
@@ -434,10 +434,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -870.0,
-            "y": -46.000030517578128,
-            "width": 221.00006103515626,
-            "height": 277.99993896484377
+            "x": -836.9999389648438,
+            "y": 37.99998092651367,
+            "width": 221.0,
+            "height": 278.0
         }
     },
     "m_Slots": [
@@ -475,10 +475,10 @@
     "m_Theme": 0,
     "m_Position": {
         "serializedVersion": "2",
-        "x": -866.0,
-        "y": -345.0,
+        "x": -837.0,
+        "y": -274.0,
         "width": 200.0,
-        "height": 277.60260009765627
+        "height": 278.0
     },
     "m_Group": {
         "m_Id": ""
